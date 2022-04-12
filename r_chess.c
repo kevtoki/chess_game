@@ -5,9 +5,11 @@
 
 // including local modules
 #include "UI.h" // responsible for drawing the game and showing it to the user
-
+#include "Game.h" // responsible for the game loop and game logic
+#include "ChessPiece.h" // responsible for the chess piece structs and rules
 
 int main(){
-	PrintBoard();
-
+	Game *game = CreateGame();
+	PrintBoard(game);
+	DeleteGame(game);
 }

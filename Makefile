@@ -11,11 +11,19 @@ r_chess.o: r_chess.c
 UI.o: UI.c
 	gcc -c UI.c -o UI.o  -Wall -std=c11
 
+# Target for ChessPiece.o
+ChessPiece.o: ChessPiece.c
+	gcc -c ChessPiece.c -o ChessPiece.o  -Wall -std=c11
+
+# Target for Game.o
+Game.o: Game.c
+	gcc -c Game.c -o Game.o  -Wall -std=c11
+
 
 ##################### Generate the executable ###################
 # Target for r_chess
-r_chess: r_chess.o UI.o
-	gcc r_chess.o UI.o -o r_chess -Wall -std=c11
+r_chess: r_chess.o UI.o ChessPiece.o Game.o
+	gcc r_chess.o UI.o ChessPiece.o Game.o -o r_chess -Wall -std=c11
 
 
 ##################### Otehr functions ###########################
@@ -23,4 +31,6 @@ r_chess: r_chess.o UI.o
 clean:
 	rm r_chess.o
 	rm UI.o
+	rm ChessPiece.o
+	rm Game.o
 	rm r_chess

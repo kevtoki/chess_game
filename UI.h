@@ -1,1 +1,3 @@
-void PrintBoard();
+#include "Game.h"
+
+void PrintBoard(Game *game);
