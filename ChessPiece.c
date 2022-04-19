@@ -3,12 +3,14 @@
 #include <assert.h>
 #include "ChessPiece.h"
 
-ChessPiece *CreatePiece(Color color, PieceType p_type){
+ChessPiece *CreatePiece(Color color, PieceType p_type, int rank, int file){
 	ChessPiece *piece = malloc(sizeof(ChessPiece));
 	assert(piece);
 
 	piece->color = color;
 	piece->p_type = p_type;
+	piece->rank = rank;
+	piece->file = file;
 
 	piece->name[0] = ' ';
 	piece->name[1] = ' ';
