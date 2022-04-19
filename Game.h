@@ -16,4 +16,6 @@ void DeleteGame(Game *game);
 
 char *PrintCoordinate(Game *game, char location[3]);
 
+void GameLoop(int option);
+
 #endif

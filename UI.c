@@ -29,3 +29,30 @@ void PrintBoard(Game *game){
 	printf("  +----+----+----+----+----+----+----+----+\n");
 	printf("    A    B    C    D    E    F    G    H\n");
 }
+
+void PrintBoardR(Game *game){
+
+
+
+    for (int i = 0; i < 8; i++){
+        printf("  +----+----+----+----+----+----+----+----+\n");
+
+        printf("%d |", i + 1);
+        for (int j = 8; j > 0; j--){
+            char *name = "  ";
+            if (game->board[i][j - 1] != NULL){
+                name = game->board[i][j - 1]->name;
+            }
+            printf(" %s |", name);
+        }
+        printf("\n");
+    }
+
+
+
+
+
+    printf("  +----+----+----+----+----+----+----+----+\n");
+    printf("    A    B    C    D    E    F    G    H\n");
+
+}
