@@ -3,10 +3,12 @@
 
 #include "ChessPiece.h"
 
-
+typedef enum {HUMAN = 0, COMPUTER = 1} PLAYER_TYPE;
 
 typedef struct{
 	ChessPiece *board[8][8];
+	PLAYER_TYPE PLAYERW;
+	PLAYER_TYPE PLAYERB;
 } Game;
 
 

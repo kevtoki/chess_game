@@ -70,24 +70,29 @@ void DeleteGame(Game *game){
 
 void GameLoop(int option){
 	Game *game = CreateGame();
-	int userSelection = 0;
 	if (option == 1){
-		printf("What color do you want to be?\n\n");
-		printf("1 - White\n");
-	    printf("2 - Black\n\n");
-		printf("Enter color here (1-2): ");
-		scanf("%d", &userSelection);
-		if (userSelection == 1){
-			PrintBoard(game);
+		int userSelection = 0;
+		
+		while (userSelection != 1 && userSelection != 2){
+			printf("What color do you want to be?\n\n");
+			printf("1 - White\n");
+			printf("2 - Black\n\n");
+			printf("Enter color here (1-2): ");
+			scanf("%d", &userSelection);
 		}
-		else{
-			PrintBoardR(game);
-		} 
-
+		
+		if (userSelection == 1){
+			game->PLAYERW = HUMAN;
+			game->PLAYERB = COMPUTER;
+		}
+		else {
+			game->PLAYERB = HUMAN;
+			game->PLAYERW = COMPUTER;
+		}	
 	}
-	else{
-		PrintBoard(game);
+	else {
+		game->PLAYERW = COMPUTER;
+		game->PLAYERB = COMPUTER;
 	}
 }
-
 
