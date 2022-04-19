@@ -4,6 +4,9 @@
 #include "Game.h"
 #include "Board.h"
 #include "UI.h"
+#include "Rules.h"
+#include "Move.h"
+
 
 Game *CreateGame(){
 	Game *game = malloc(sizeof(Game));
@@ -68,6 +71,8 @@ void DeleteGame(Game *game){
 	free(game);
 }
 
+
+
 void GameLoop(int option){
 	Game *game = CreateGame();
 	if (option == 1){
@@ -88,7 +93,27 @@ void GameLoop(int option){
 		else {
 			game->PLAYERB = HUMAN;
 			game->PLAYERW = COMPUTER;
-		}	
+		}
+		
+		if (game->PLAYERW == HUMAN){
+			do{
+				PrintBoard(game);
+				MOVE *pmove = GetUserMove(game);
+				Move(game, pmove);
+				DeleteMove(pmove);				
+
+				MOVE *AImove = GetAIMove(game);
+				Move(game, AImove);
+				DeleteMove(AImove);
+			} while (!isCheckmate(game));
+			EndGame(game);	
+		}
+		else{
+			do{
+				PrintBoardR(game);
+			} while(!isCheckmate(game));
+			EndGame(game);
+		}
 	}
 	else {
 		game->PLAYERW = COMPUTER;
@@ -96,3 +121,8 @@ void GameLoop(int option){
 	}
 }
 
+
+// determine the winner and clean up memory
+void EndGame(Game *game){
+	DeleteGame(game);
+}

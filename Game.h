@@ -20,4 +20,7 @@ char *PrintCoordinate(Game *game, char location[3]);
 
 void GameLoop(int option);
 
+
+void EndGame(Game *game);
+
 #endif

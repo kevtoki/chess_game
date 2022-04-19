@@ -10,7 +10,9 @@ ChessPiece *CreatePiece(Color color, PieceType p_type){
 	piece->color = color;
 	piece->p_type = p_type;
 
-	piece->name[3] = '\0';
+	piece->name[0] = ' ';
+	piece->name[1] = ' ';
+	piece->name[2] = '\0';
 
 	if (color == WHITE){
 		piece->name[0] = 'w';

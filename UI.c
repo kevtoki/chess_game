@@ -53,6 +53,6 @@ void PrintBoardR(Game *game){
 
 
     printf("  +----+----+----+----+----+----+----+----+\n");
-    printf("    A    B    C    D    E    F    G    H\n");
+    printf("    H    G    F    E    D    C    B    A\n");
 
 }
