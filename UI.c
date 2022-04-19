@@ -13,8 +13,8 @@ void PrintBoard(Game *game){
 		printf("%d |", i);
 		for (int j = 0; j <= 7; j++){
 			char *name = "  ";
-			if (game->board[i - 1][j] != NULL){
-				name = game->board[i - 1][j]->name;
+			if (game->board[j][i - 1] != NULL){
+				name = game->board[j][i - 1]->name;
 			}
 			printf(" %s |", name);
 		}
@@ -31,17 +31,14 @@ void PrintBoard(Game *game){
 }
 
 void PrintBoardR(Game *game){
-
-
-
     for (int i = 0; i < 8; i++){
         printf("  +----+----+----+----+----+----+----+----+\n");
 
         printf("%d |", i + 1);
         for (int j = 8; j > 0; j--){
             char *name = "  ";
-            if (game->board[i][j - 1] != NULL){
-                name = game->board[i][j - 1]->name;
+            if (game->board[j - 1][i] != NULL){
+                name = game->board[j - 1][i]->name;
             }
             printf(" %s |", name);
         }

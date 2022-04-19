@@ -37,8 +37,10 @@ r_chess: r_chess.o UI.o ChessPiece.o Game.o Rules.o Move.o
 ##################### Otehr functions ###########################
 # Target for clean-up
 clean:
-	rm r_chess.o
-	rm UI.o
-	rm ChessPiece.o
-	rm Game.o
-	rm r_chess
+	rm -f r_chess.o
+	rm -f UI.o
+	rm -f ChessPiece.o
+	rm -f Game.o
+	rm -f Rules.o
+	rm -f Move.o
+	rm -f r_chess
