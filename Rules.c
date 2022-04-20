@@ -2,5 +2,5 @@
 
 
 int isCheckmate(Game *game){
-	return 1;
+	return 0;
 }

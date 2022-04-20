@@ -2,6 +2,7 @@
 #define MOVE_H
 
 #include "Game.h"
+#include "ChessPiece.h"
 
 typedef struct {
 	int r1; // rank to go from
@@ -29,5 +30,6 @@ MOVE *GetUserMove(Game *game);
 // gets the move from the computer, will check if the move is legal
 MOVE *GetAIMove(Game *game);
 
-
+// converts char into int
+int charToInt(char c);
 #endif
