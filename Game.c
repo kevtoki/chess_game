@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include "Game.h"
-#include "Board.h"
 #include "UI.h"
 #include "Rules.h"
 #include "Move.h"
@@ -11,7 +10,8 @@
 Game *CreateGame(){
 	Game *game = malloc(sizeof(Game));
 	assert(game);
-
+	
+	game->whoTurn = WHITE;
 
 	for (int i = 0; i < 8; i++){
 		for (int j = 0; j < 8; j++){
@@ -101,10 +101,13 @@ void GameLoop(int option){
 				MOVE *pmove = GetUserMove(game);
 				Move(game, pmove);
 				DeleteMove(pmove);				
+				game->whoTurn = BLACK;
 
 				MOVE *AImove = GetAIMove(game);
 				Move(game, AImove);
 				DeleteMove(AImove);
+				game->whoTurn = WHITE;
+
 			} while (!isCheckmate(game));
 			EndGame(game);	
 		}

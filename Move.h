@@ -9,6 +9,7 @@ typedef struct {
 	int f1; // file to go from
 	int r2; // rank to go to
 	int f2; // file to go to
+	Color who;
 
 } MOVE;
 
