@@ -47,10 +47,9 @@ int isValidMove(Game *game, MOVE *move){
 		
 	}
 	else if (pType == ROOK){
-
-	}
-	else if (pType == ROOK){
-
+		if (!((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 ) || (abs(r1 - r2) == 0 && abs(f1 - f2) > 0))){
+			return 0;
+		}
 	}
 	else if (pType == KNIGHT){
 		if (!((abs(r1 - r2) == 1 && abs(f1 - f2) == 2) || (abs(r1 - r2) == 2 && abs(f1 - f2) == 1))){
@@ -58,13 +57,19 @@ int isValidMove(Game *game, MOVE *move){
 		}
 	}
 	else if (pType == BISHOP){
-
+		if (!(abs(r1 - r2) == abs(f1 - f2))){
+			return 0;
+		}
 	}
 	else if (pType == QUEEN){
-
+		if (!((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 ) || (abs(r1 - r2) == 0 && abs(f1 - f2) > 0)) && !(abs(r1 - r2) == abs(f1 - f2))){
+			return 0;
+		}
 	}
 	else if (pType == KING){
-
+		if (!(abs(r1 - r2) <= 1 && abs(f1 - f2) <= 1)){
+			return 0;
+		}
 	}
 
 	return 1;
