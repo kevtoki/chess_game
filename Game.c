@@ -103,9 +103,11 @@ void GameLoop(int option){
 				DeleteMove(pmove);				
 				game->whoTurn = BLACK;
 
+				PrintBoard(game);
 				MOVE *AImove = GetAIMove(game);
 				Move(game, AImove);
 				DeleteMove(AImove);
+				printf("\n\nComputer moved!\n\n\n");
 				game->whoTurn = WHITE;
 
 			} while (!isCheckmate(game));
