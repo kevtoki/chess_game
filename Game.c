@@ -72,6 +72,21 @@ void DeleteGame(Game *game){
 }
 
 
+Game *CloneGame(Game *game){
+	Game *clone = malloc(sizeof(Game));
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			clone->board[i][j] = game->board[i][j];
+		}
+	}
+
+	clone->PLAYERW = game->PLAYERW;
+	clone->PLAYERB = game->PLAYERB;
+	clone->whoTurn = game->whoTurn;
+
+	return clone;
+}
+
 
 void GameLoop(int option){
 	Game *game = CreateGame();

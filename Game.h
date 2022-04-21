@@ -18,7 +18,7 @@ Game *CreateGame();
 
 void DeleteGame(Game *game);
 
-char *PrintCoordinate(Game *game, char location[3]);
+Game *CloneGame(Game *game);
 
 void GameLoop(int option);
 

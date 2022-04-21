@@ -7,8 +7,9 @@
 
 int isCheckmate(Game *game);
 
-int isValidMove(Game *game, MOVE *move);
+int isLegalMove(Game *game, MOVE *move);
 
+int isValidPieceMove(Game *game, MOVE *move);
 
 int exposesKing(Game *game, MOVE *move);
 

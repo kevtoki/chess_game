@@ -9,13 +9,8 @@ int isCheckmate(Game *game){
 
 
 
-int isValidMove(Game *game, MOVE *move){
+int isLegalMove(Game *game, MOVE *move){
 	Color who = game->whoTurn;
-	int r1, r2, f1, f2;
-	r1 = move->r1;
-	f1 = move->f1;
-	r2 = move->r2;
-	f2 = move->f2;
 
 
 	// check if the move is on the board
@@ -37,13 +32,29 @@ int isValidMove(Game *game, MOVE *move){
 		return 0;
 	}
 
+	if (isObstructed(game, move)){
+		return 0;
+	}
+
+	if (!isValidPieceMove(game, move)){
+		return 0;
+	}
+
 	if (exposesKing(game, move)){
 		return 0;
 	}
 
-	if (isObstructed(game, move)){
-		return 0;
-	}
+	return 1;
+
+}
+
+int isValidPieceMove(Game *game, MOVE *move){
+	int r1, r2, f1, f2;
+	r1 = move->r1;
+	f1 = move->f1;
+	r2 = move->r2;
+	f2 = move->f2;
+
 
 	ChessPiece *piece = game->board[move->r1][move->f1];
 	PieceType pType = piece->p_type;
@@ -141,10 +152,45 @@ int isValidMove(Game *game, MOVE *move){
 	}
 
 	return 0;
-
 }
 
 int exposesKing(Game *game, MOVE *move){
+	Game *clone = CloneGame(game);
+
+	Move(clone, move);
+
+	int r2 = 0, f2 = 0;
+
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			if (clone->board[i][j] != NULL && clone->board[i][j]->p_type == KING && clone->board[i][j]->color == clone->whoTurn){
+				r2 = i;
+				f2 = j;
+			}
+		}
+	}
+
+
+
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			if (clone->board[i][j] != NULL && clone->board[i][j]->color != clone->whoTurn){
+				MOVE *t_move = CreateMove(i, j, r2, f2);
+				// printf("Evaluated square: %c%d\n", 'a' + i, j + 1);
+				if (isValidPieceMove(clone, t_move) && !isObstructed(clone, t_move)){
+					DeleteMove(t_move);
+					// printf("Evaluated square '%c%d' is the piece that threatens the King!\n", 'a' + i, j + 1);
+					return 1;
+				}
+				else {
+					DeleteMove(t_move);
+				}
+			}
+		}
+	}
+
+	DeleteGame(clone);
+
 	return 0;
 }
 

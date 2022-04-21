@@ -60,9 +60,9 @@ MOVE *GetUserMove(Game *game){
     char currentPos[2];
 	char newPos[2];
 	MOVE *m = CreateMove(0, 0, 0, 0);
-	int isValid = 0;
+	int isLegal = 0;
 
-	while(!isValid){
+	while(!isLegal){
    		printf("Enter the position of the piece you want to move: ");
 		char temp[1000];
 		scanf("%s", temp);
@@ -83,11 +83,11 @@ MOVE *GetUserMove(Game *game){
 	
 		// printf("%d, %d, %d, %d", m->r1, m->f1, m->r2, m->f2);
 			
-		if (!isValidMove(game, m)){
+		if (!isLegalMove(game, m)){
 			printf("Move not valid!\n\n");
 		}
 		else {
-			isValid = 1;
+			isLegal = 1;
 		}
 
 	}
