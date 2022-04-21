@@ -41,6 +41,10 @@ int isValidMove(Game *game, MOVE *move){
 		return 0;
 	}
 
+	if (isObstructed(game, move)){
+		return 0;
+	}
+
 	ChessPiece *piece = game->board[move->r1][move->f1];
 	PieceType pType = piece->p_type;
 	Color pColor = piece->color;
@@ -142,6 +146,60 @@ int isValidMove(Game *game, MOVE *move){
 
 int exposesKing(Game *game, MOVE *move){
 	return 0;
+}
+
+int isObstructed(Game *game, MOVE *move){
+	ChessPiece *piece = game->board[move->r1][move->f1];
+
+	int r1 = move->r1;
+	int f1 = move->f1;
+	int r2 = move->r2;
+	int f2 = move->f2;
+
+
+	if (piece->p_type == ROOK){
+		if (r1 < r2){
+			for (int i = r1 + 1; i < r2; i++){
+				if (game->board[i][f1] != NULL){
+					return 1;
+				}
+			}
+		}
+		else if (r1 > r2){
+			for (int i = r2 + 1; i < r1; i++){
+				if (game->board[i][f1] != NULL){
+					return 1;
+				}
+			}
+			
+		}
+		else if (f1 < f2){
+			for (int i = f1 + 1; i < f2; i++){
+				if (game->board[r1][i] != NULL){
+					return 1;
+				}
+			}
+			
+		}
+		else if (f1 > f2){
+			for (int i = f2 + 1; i < f1; i++){
+				if (game->board[r1][i] != NULL){
+					return 1;
+				}
+			}
+			
+		}
+
+	}
+	else if (piece->p_type == BISHOP){
+	
+	}
+	else if (piece->p_type == QUEEN){
+
+	}
+
+	return 0;
+
 }
 
 

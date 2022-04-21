@@ -37,11 +37,15 @@ Move.o: Move.c
 AI.o: AI.c
 	$(OPTIONS) -c $(SOURCE_PATH)AI.c -o $(COMPILE_PATH)AI.o
 
+# Target for Move.o
+MoveList.o: MoveList.c
+	$(OPTIONS) -c $(SOURCE_PATH)MoveList.c -o $(COMPILE_PATH)MoveList.o
+
 
 ##################### Generate the executable ###################
 # Target for r_chess
-r_chess: r_chess.o UI.o ChessPiece.o Game.o Rules.o Move.o AI.o
-	$(OPTIONS) $(COMPILE_PATH)r_chess.o $(COMPILE_PATH)UI.o $(COMPILE_PATH)ChessPiece.o $(COMPILE_PATH)Game.o $(COMPILE_PATH)Rules.o $(COMPILE_PATH)Move.o $(COMPILE_PATH)AI.o -o r_chess
+r_chess: r_chess.o UI.o ChessPiece.o Game.o Rules.o Move.o AI.o MoveList.o
+	$(OPTIONS) $(COMPILE_PATH)r_chess.o $(COMPILE_PATH)UI.o $(COMPILE_PATH)ChessPiece.o $(COMPILE_PATH)Game.o $(COMPILE_PATH)Rules.o $(COMPILE_PATH)Move.o $(COMPILE_PATH)AI.o $(COMPILE_PATH)MoveList.o -o r_chess
 	
 	rm -f $(COMPILE_PATH)r_chess.o
 	rm -f $(COMPILE_PATH)UI.o
@@ -50,6 +54,7 @@ r_chess: r_chess.o UI.o ChessPiece.o Game.o Rules.o Move.o AI.o
 	rm -f $(COMPILE_PATH)Rules.o
 	rm -f $(COMPILE_PATH)Move.o
 	rm -f $(COMPILE_PATH)AI.o
+	rm -f $(COMPILE_PATH)MoveList.o
 
 
 ##################### Otehr functions ###########################
@@ -62,4 +67,5 @@ clean:
 	rm -f $(COMPILE_PATH)Rules.o
 	rm -f $(COMPILE_PATH)Move.o
 	rm -f $(COMPILE_PATH)AI.o
+	rm -f $(COMPILE_PATH)MoveList.o
 	rm -f $(COMPILE_PATH)r_chess
