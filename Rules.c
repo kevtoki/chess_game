@@ -41,49 +41,102 @@ int isValidMove(Game *game, MOVE *move){
 		return 0;
 	}
 
-	PieceType pType = game->board[move->r1][move->f1]->p_type;
-	Color pColor = game->board[move->r1][move->f1]->color;
+	ChessPiece *piece = game->board[move->r1][move->f1];
+	PieceType pType = piece->p_type;
+	Color pColor = piece->color;
 
 	if (pType == PAWN){
 		if (pColor == WHITE){
-			if (!((f2 - f1 == 1) && (r2 - r1 == 0)) && !(abs(r2 - r1) == 1 && f2 - f1 == 1 && game->board[move->r2][move->f2] != NULL)){
-				return 0;
+			// move forward one square case
+			if ((f2 - f1 == 1) && (r2 - r1 == 0)&& game->board[move->r2][move->f2] == NULL){
+				return 1;
 			}
+			
+			// take diagonal case	
+			if (abs(r2 - r1) == 1 && f2 - f1 == 1 && game->board[move->r2][move->f2] != NULL){
+				return 1;
+
+			}
+
+			// move forward two squares on the first move case
+			if ((f2 - f1 == 2) && (r2 - r1 == 0) && game->board[move->r2][move->f2] == NULL && piece->numberOfMoves == 0){
+				return 1;
+			}
+
+			return 0;
 		}
 		else {
-			if (!(f2 - f1 == -1) || !(abs(r2 - r1) == 1 && f2 - f1 == -1 && game->board[move->r2][move->f2] != NULL)){
-				return 0;
+			// move forward one square case
+			if ((f2 - f1 == -1) && (r2 - r1 == 0)&& game->board[move->r2][move->f2] == NULL){
+				return 1;
 			}
+			
+			// take diagonal case	
+			if (abs(r2 - r1) == 1 && f2 - f1 == -1 && game->board[move->r2][move->f2] != NULL){
+				return 1;
+
+			}
+
+			// move forward two squares on the first move case
+			if ((f2 - f1 == -2) && (r2 - r1 == 0) && game->board[move->r2][move->f2] == NULL && piece->numberOfMoves == 0){
+				return 1;
+			}
+
+			return 0;
 
 		}	
 	}
 	else if (pType == ROOK){
-		if (!((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 ) || (abs(r1 - r2) == 0 && abs(f1 - f2) > 0))){
-			return 0;
+		if ((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 )){
+			return 1;
 		}
+
+		if ((abs(r1 - r2) == 0 && abs(f1 - f2) > 0)){
+			return 1;
+		}
+
+		return 0;
 	}
 	else if (pType == KNIGHT){
-		if (!((abs(r1 - r2) == 1 && abs(f1 - f2) == 2) || (abs(r1 - r2) == 2 && abs(f1 - f2) == 1))){
-			return 0;
+		if ((abs(r1 - r2) == 1 && abs(f1 - f2) == 2)){
+			return 1;
 		}
+		if ((abs(r1 - r2) == 2 && abs(f1 - f2) == 1)){
+			return 1;
+		}
+
+		return 0;
 	}
 	else if (pType == BISHOP){
-		if (!(abs(r1 - r2) == abs(f1 - f2))){
-			return 0;
+		if ((abs(r1 - r2) == abs(f1 - f2))){
+			return 1;
 		}
+		
+		return 0;
 	}
 	else if (pType == QUEEN){
-		if (!((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 ) || (abs(r1 - r2) == 0 && abs(f1 - f2) > 0)) && !(abs(r1 - r2) == abs(f1 - f2))){
-			return 0;
+		if ((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 )){
+			return 1;
 		}
+
+		if ((abs(r1 - r2) == 0 && abs(f1 - f2) > 0)){
+			return 1;
+		}
+
+		if ((abs(r1 - r2) == abs(f1 - f2))){
+			return 1;
+		}
+		
+		return 0;
 	}
 	else if (pType == KING){
-		if (!(abs(r1 - r2) <= 1 && abs(f1 - f2) <= 1)){
-			return 0;
+		if (abs(r1 - r2) <= 1 && abs(f1 - f2) <= 1){
+			return 1;
 		}
+		return 0;
 	}
 
-	return 1;
+	return 0;
 
 }
 
