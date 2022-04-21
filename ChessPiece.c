@@ -11,16 +11,18 @@ ChessPiece *CreatePiece(Color color, PieceType p_type, int rank, int file){
 	piece->p_type = p_type;
 	piece->rank = rank;
 	piece->file = file;
+	piece->numberOfMoves = 0;
+
 
 	piece->name[0] = ' ';
 	piece->name[1] = ' ';
 	piece->name[2] = '\0';
 
 	if (color == WHITE){
-		piece->name[0] = 'w';
+		piece->name[0] = 'W';
 	}
 	else{
-		piece->name[0] = 'b';
+		piece->name[0] = 'B';
 	}
 
 
@@ -53,3 +55,34 @@ void DeletePiece(ChessPiece *piece){
 	}
 }
 
+
+void PromotePiece(ChessPiece *piece, PieceType p_type){
+	piece->p_type = p_type;
+	
+	if (piece->color == WHITE){
+		piece->name[0] = 'W';
+	}
+	else{
+		piece->name[0] = 'B';
+	}
+
+
+	if (p_type == PAWN){
+		piece->name[1] = 'P';
+	}
+	else if (p_type == ROOK){
+		piece->name[1] = 'R';
+	}
+	else if (p_type == KNIGHT){
+		piece->name[1] = 'N';
+	}
+	else if (p_type == BISHOP){
+		piece->name[1] = 'B';
+	}
+	else if (p_type == QUEEN){
+		piece->name[1] = 'Q';
+	}
+	else if (p_type == KING){
+		piece->name[1] = 'K';
+	}
+}

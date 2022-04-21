@@ -12,6 +12,7 @@ typedef struct{
 	Color color;
 	char name[3];
 	int rank, file;
+	int numberOfMoves;
 } ChessPiece;
 
 
@@ -19,7 +20,7 @@ ChessPiece *CreatePiece(Color color, PieceType p_type, int rank, int file);
 
 void DeletePiece(ChessPiece *piece);
 
-
+void PromotePiece(ChessPiece *piece, PieceType p_type);
 
 
 

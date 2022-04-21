@@ -2,45 +2,64 @@
 .DEFAULT_GOAL := r_chess
 
 
+#Variables
+SOURCE_PATH = ./
+COMPILE_PATH = ./
+OPTIONS = gcc -Wall -std=c11
+
+
 ##################### Generate object files ##################### 
 # Target for r_chess.o
 r_chess.o: r_chess.c
-	gcc -c r_chess.c -o r_chess.o -Wall -std=c11
+	$(OPTIONS) -c $(SOURCE_PATH)r_chess.c -o $(COMPILE_PATH)r_chess.o
 
 # Target for UI.o
 UI.o: UI.c
-	gcc -c UI.c -o UI.o -Wall -std=c11
+	$(OPTIONS) -c $(SOURCE_PATH)UI.c -o $(COMPILE_PATH)UI.o
 
 # Target for ChessPiece.o
 ChessPiece.o: ChessPiece.c
-	gcc -c ChessPiece.c -o ChessPiece.o -Wall -std=c11
+	$(OPTIONS) -c $(SOURCE_PATH)ChessPiece.c -o $(COMPILE_PATH)ChessPiece.o
 
 # Target for Game.o
 Game.o: Game.c
-	gcc -c Game.c -o Game.o -Wall -std=c11
+	$(OPTIONS) -c $(SOURCE_PATH)Game.c -o $(COMPILE_PATH)Game.o
 
 # Target for Rules.o
 Rules.o: Rules.c
-	gcc -c Rules.c -o Rules.o -Wall -std=c11
+	$(OPTIONS) -c $(SOURCE_PATH)Rules.c -o $(COMPILE_PATH)Rules.o
 
 # Target for Move.o
 Move.o: Move.c
-	gcc -c Move.c -o Move.o -Wall -std=c11
+	$(OPTIONS) -c $(SOURCE_PATH)Move.c -o $(COMPILE_PATH)Move.o
+
+# Target for Move.o
+AI.o: AI.c
+	$(OPTIONS) -c $(SOURCE_PATH)AI.c -o $(COMPILE_PATH)AI.o
 
 
 ##################### Generate the executable ###################
 # Target for r_chess
-r_chess: r_chess.o UI.o ChessPiece.o Game.o Rules.o Move.o
-	gcc r_chess.o UI.o ChessPiece.o Game.o Rules.o Move.o -o r_chess -Wall -std=c11
+r_chess: r_chess.o UI.o ChessPiece.o Game.o Rules.o Move.o AI.o
+	$(OPTIONS) $(COMPILE_PATH)r_chess.o $(COMPILE_PATH)UI.o $(COMPILE_PATH)ChessPiece.o $(COMPILE_PATH)Game.o $(COMPILE_PATH)Rules.o $(COMPILE_PATH)Move.o $(COMPILE_PATH)AI.o -o r_chess
+	
+	rm -f $(COMPILE_PATH)r_chess.o
+	rm -f $(COMPILE_PATH)UI.o
+	rm -f $(COMPILE_PATH)ChessPiece.o
+	rm -f $(COMPILE_PATH)Game.o
+	rm -f $(COMPILE_PATH)Rules.o
+	rm -f $(COMPILE_PATH)Move.o
+	rm -f $(COMPILE_PATH)AI.o
 
 
 ##################### Otehr functions ###########################
 # Target for clean-up
 clean:
-	rm -f r_chess.o
-	rm -f UI.o
-	rm -f ChessPiece.o
-	rm -f Game.o
-	rm -f Rules.o
-	rm -f Move.o
-	rm -f r_chess
+	rm -f $(COMPILE_PATH)r_chess.o
+	rm -f $(COMPILE_PATH)UI.o
+	rm -f $(COMPILE_PATH)ChessPiece.o
+	rm -f $(COMPILE_PATH)Game.o
+	rm -f $(COMPILE_PATH)Rules.o
+	rm -f $(COMPILE_PATH)Move.o
+	rm -f $(COMPILE_PATH)AI.o
+	rm -f $(COMPILE_PATH)r_chess

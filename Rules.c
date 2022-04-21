@@ -42,9 +42,20 @@ int isValidMove(Game *game, MOVE *move){
 	}
 
 	PieceType pType = game->board[move->r1][move->f1]->p_type;
+	Color pColor = game->board[move->r1][move->f1]->color;
 
 	if (pType == PAWN){
-		
+		if (pColor == WHITE){
+			if (!((f2 - f1 == 1) && (r2 - r1 == 0)) && !(abs(r2 - r1) == 1 && f2 - f1 == 1 && game->board[move->r2][move->f2] != NULL)){
+				return 0;
+			}
+		}
+		else {
+			if (!(f2 - f1 == -1) || !(abs(r2 - r1) == 1 && f2 - f1 == -1 && game->board[move->r2][move->f2] != NULL)){
+				return 0;
+			}
+
+		}	
 	}
 	else if (pType == ROOK){
 		if (!((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 ) || (abs(r1 - r2) == 0 && abs(f1 - f2) > 0))){
@@ -78,4 +89,34 @@ int isValidMove(Game *game, MOVE *move){
 
 int exposesKing(Game *game, MOVE *move){
 	return 0;
+}
+
+
+void checkPromotions(Game *game){
+	Color who = game->whoTurn;
+	for (int i = 0; i < 8; i++){
+		if (who == WHITE && game->PLAYERW == HUMAN){
+			if (game->board[i][7] != NULL && game->board[i][7]->p_type == PAWN){
+				printf("A pawn on %c8 is ready for promotion!\n", 'a' + i);
+			}
+		}
+		else if (who == BLACK && game->PLAYERB == HUMAN){
+			if (game->board[i][0] != NULL && game->board[i][0]->p_type == PAWN){
+				printf("A pawn on %c1 is ready for promotion!\n", 'a' + i);
+			}
+			
+		}
+		else if (who == WHITE){
+			if (game->board[i][7] != NULL && game->board[i][7]->p_type == PAWN){
+				PromotePiece(game->board[i][7], QUEEN);
+			}
+			
+		}
+		else if (who == BLACK){
+			if (game->board[i][0] != NULL && game->board[i][0]->p_type == PAWN){
+				PromotePiece(game->board[i][0], QUEEN);
+			}
+			
+		}
+	}
 }

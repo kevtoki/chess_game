@@ -32,6 +32,15 @@ void Move(Game *game, MOVE *move){
     currentFile = move->f1;
     newRank = move->r2;
     newFile = move->f2;
+	
+	if (currentRank == newRank && currentFile == newFile){
+		return;
+	}
+
+	if (game->board[currentRank][currentFile] == NULL){
+		printf("ERROR - Attempting to move a NULL piece!\n");
+		return;
+	}
 
 	if (game->board[newRank][newFile] != NULL){
 		DeletePiece(game->board[newRank][newFile]);
@@ -40,6 +49,9 @@ void Move(Game *game, MOVE *move){
 	game->board[newRank][newFile] = game->board[currentRank][currentFile];
 	game->board[currentRank][currentFile] = NULL;
 
+	game->board[newRank][newFile]->numberOfMoves++;
+	game->board[newRank][newFile]->rank = newRank;
+	game->board[newRank][newFile]->file = newFile;
 }
 
 
@@ -87,7 +99,7 @@ MOVE *GetUserMove(Game *game){
 
 MOVE *GetAIMove(Game *game){
 
-	return CreateMove(1, 1, 1, 1);
+	return CreateMove(0, 0, 0, 0);
 }
 
 int charToInt(char c)

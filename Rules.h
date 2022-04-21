@@ -12,4 +12,6 @@ int isValidMove(Game *game, MOVE *move);
 
 int exposesKing(Game *game, MOVE *move);
 
+void checkPromotions(Game* game);
+
 #endif

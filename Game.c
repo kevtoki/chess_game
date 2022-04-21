@@ -98,12 +98,14 @@ void GameLoop(int option){
 		if (game->PLAYERW == HUMAN){
 			do{
 				PrintBoard(game);
+				checkPromotions(game);
 				MOVE *pmove = GetUserMove(game);
 				Move(game, pmove);
 				DeleteMove(pmove);				
 				game->whoTurn = BLACK;
 
 				PrintBoard(game);
+				checkPromotions(game);
 				MOVE *AImove = GetAIMove(game);
 				Move(game, AImove);
 				DeleteMove(AImove);
