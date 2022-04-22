@@ -97,8 +97,10 @@ MOVE *GetUserMove(Game *game){
 
 
 MOVE *GetAIMove(Game *game){
+	MLIST *mList = GetAllLegalMoves(game);
+	mList = RankMoves(game, mList);
 
-	return GetBestMove(game);
+	return GetBestMove(game, mList);
 }
 
 int charToInt(char c)

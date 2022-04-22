@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "Move.h"
 #include "MoveList.h"
 
@@ -36,14 +37,18 @@ void AppendMoveEntry(MLIST *mList, MOVE *m){
 
 	entry->Next = NULL;
 
+	entry->points = 0;
+	
+
 	if (mList->Length == 1){
 		entry->Prev = NULL;
+		mList->First = entry;
 	}
 	else {
 		entry->Prev = mList->Last;
+		mList->Last->Next = entry;
 	}
 	
-	mList->Last->Next = entry;
 
 	mList->Last = entry;
 

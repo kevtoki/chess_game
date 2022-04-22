@@ -23,6 +23,7 @@ struct MoveEntry {
 
 	MOVE *Move;
 
+	int points;
 };
 
 

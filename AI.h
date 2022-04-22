@@ -4,8 +4,12 @@
 #include "Game.h"
 #include "Move.h"
 #include "ChessPiece.h"
+#include "MoveList.h"
 
+MLIST *GetAllLegalMoves(Game *game);
 
-MOVE *GetBestMove(Game *game);
+MLIST *RankMoves(Game *game, MLIST *mList);
+
+MOVE *GetBestMove(Game *game, MLIST *mList);
 
 #endif

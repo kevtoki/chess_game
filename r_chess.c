@@ -18,7 +18,6 @@ void Uninstall();
 
 int main(){
 
-
     printf("Welcome to r/chess!\n\n");
 
     int userSelection = 0;
