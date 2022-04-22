@@ -6,7 +6,6 @@
 #include "ChessPiece.h"
 
 
-
-
+MOVE *GetBestMove(Game *game);
 
 #endif

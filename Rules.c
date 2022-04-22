@@ -4,6 +4,28 @@
 #include "ChessPiece.h"
 
 int isCheckmate(Game *game){
+	if (isInCheck(game)){
+		for (int i = 0; i < 8; i++){
+			for (int j = 0; j < 8; j++){
+				ChessPiece *piece = game->board[i][j];
+
+				if (piece != NULL && piece->color == game->whoTurn){
+					for (int r = 0; r < 8; r++){
+						for (int f = 0; f < 8; f++){
+							MOVE *move = CreateMove(i, j, r, f);
+							if (isLegalMove(game, move) && !exposesKing(game, move)){
+								DeleteMove(move);
+								return 0;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -66,7 +88,6 @@ int isValidPieceMove(Game *game, MOVE *move){
 
 	if (pType == PAWN){
 		if (pColor == WHITE){
-			printf("E\n");
 
 			// move forward one square case
 			if ((f2 - f1 == 1) && (r2 - r1 == 0)&& game->board[move->r2][move->f2] == NULL){
@@ -186,12 +207,10 @@ int isValidPieceMove(Game *game, MOVE *move){
 
 		// CASTLING SUCKS AHHHHHHHHHHHHHHHHHHHH
 		if (r2 - r1 == 2 && f1 - f2 == 0 && !isInCheck(game) && game->board[r1][f1]->numberOfMoves == 0){
-			printf("A\n");
 			if (game->board[7][f1] != NULL && game->board[7][f1]->p_type == ROOK && game->board[7][f1]->numberOfMoves == 0){
 				Game *clone = CloneGame(game);
 				MOVE *temp_move = CreateMove(r1, f1, r1 + 1, f2);
 				Move(clone, temp_move);
-				printf("B\n");
 				DeleteMove(temp_move);
 				if (!isInCheck(clone)){
 					DeleteGame(clone);

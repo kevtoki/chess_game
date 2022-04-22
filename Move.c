@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Rules.h"
 #include "ChessPiece.h"
+#include "AI.h"
 
 
 MOVE *CreateMove(int r1, int f1, int r2, int f2){
@@ -97,7 +98,7 @@ MOVE *GetUserMove(Game *game){
 
 MOVE *GetAIMove(Game *game){
 
-	return CreateMove(0, 0, 0, 0);
+	return GetBestMove(game);
 }
 
 int charToInt(char c)

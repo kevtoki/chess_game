@@ -116,35 +116,77 @@ void GameLoop(int option){
 		}
 		
 		if (game->PLAYERW == HUMAN){
-			do{
-				PrintBoard(game);
-				checkPromotions(game);
-				MOVE *pmove = GetUserMove(game);
-				Move(game, pmove);
-				DeleteMove(pmove);				
-				game->whoTurn = BLACK;
-
-				PrintBoard(game);
-				checkPromotions(game);
-				MOVE *AImove = GetAIMove(game);
-				Move(game, AImove);
-				DeleteMove(AImove);
-				printf("\n\nComputer moved!\n\n\n");
-				game->whoTurn = WHITE;
-
-			} while (!isCheckmate(game));
+			while (!isCheckmate(game)){
+				if (game->whoTurn == WHITE){
+					PrintBoard(game);
+					checkPromotions(game);
+					MOVE *pmove = GetUserMove(game);
+					Move(game, pmove);
+					DeleteMove(pmove);				
+					game->whoTurn = BLACK;
+				}
+				else {
+					PrintBoard(game);
+					checkPromotions(game);
+					MOVE *AImove = GetAIMove(game);
+					Move(game, AImove);
+					printf("\n\nComputer moved %c%d to %c%d!\n\n\n", 'a' + AImove->r1, AImove->f1 + 1, 'a' + AImove->r2, AImove->f2 + 1);
+					DeleteMove(AImove);
+					game->whoTurn = WHITE;
+				}
+			}
 			EndGame(game);	
 		}
 		else{
-			do{
-				PrintBoardR(game);
-			} while(!isCheckmate(game));
-			EndGame(game);
+			game->whoTurn = BLACK;
+			while (!isCheckmate(game)){
+				if (game->whoTurn == BLACK){
+					PrintBoardR(game);
+					checkPromotions(game);
+					MOVE *pmove = GetUserMove(game);
+					Move(game, pmove);
+					DeleteMove(pmove);				
+					game->whoTurn = WHITE;
+				}
+				else {
+					PrintBoardR(game);
+					checkPromotions(game);
+					MOVE *AImove = GetAIMove(game);
+					Move(game, AImove);
+					printf("\n\nComputer moved %c%d to %c%d!\n\n\n", 'a' + AImove->r1, AImove->f1 + 1, 'a' + AImove->r2, AImove->f2 + 1);
+					DeleteMove(AImove);
+					game->whoTurn = BLACK;
+				}
+			}
+			EndGame(game);	
 		}
 	}
 	else {
 		game->PLAYERW = COMPUTER;
 		game->PLAYERB = COMPUTER;
+
+		
+		while (!isCheckmate(game)){
+			if (game->whoTurn == WHITE){
+				PrintBoard(game);
+				checkPromotions(game);
+				MOVE *AImove = GetAIMove(game);
+				Move(game, AImove);
+				printf("\n\nComputer moved %c%d to %c%d!\n\n\n", 'a' + AImove->r1, AImove->f1 + 1, 'a' + AImove->r2, AImove->f2 + 1);
+				DeleteMove(AImove);
+				game->whoTurn = BLACK;
+			}
+			else {
+				PrintBoard(game);
+				checkPromotions(game);
+				MOVE *AImove = GetAIMove(game);
+				Move(game, AImove);
+				printf("\n\nComputer moved %c%d to %c%d!\n\n\n", 'a' + AImove->r1, AImove->f1 + 1, 'a' + AImove->r2, AImove->f2 + 1);
+				DeleteMove(AImove);
+				game->whoTurn = WHITE;
+			}
+		}
+		EndGame(game);	
 	}
 }
 
