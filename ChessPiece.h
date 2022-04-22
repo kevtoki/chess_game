@@ -11,12 +11,11 @@ typedef struct{
 	PieceType p_type;
 	Color color;
 	char name[3];
-	int rank, file;
 	int numberOfMoves;
 } ChessPiece;
 
 
-ChessPiece *CreatePiece(Color color, PieceType p_type, int rank, int file);
+ChessPiece *CreatePiece(Color color, PieceType p_type);
 
 void DeletePiece(ChessPiece *piece);
 

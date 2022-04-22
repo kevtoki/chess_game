@@ -33,14 +33,17 @@ int isLegalMove(Game *game, MOVE *move){
 	}
 
 	if (isObstructed(game, move)){
+		// printf("Piece is obstructed.\n");
 		return 0;
 	}
 
 	if (!isValidPieceMove(game, move)){
+		// printf("Move is not valid for that piece.\n");
 		return 0;
 	}
 
 	if (exposesKing(game, move)){
+		// printf("Move exposes King to checkmate.\n");
 		return 0;
 	}
 
@@ -60,8 +63,11 @@ int isValidPieceMove(Game *game, MOVE *move){
 	PieceType pType = piece->p_type;
 	Color pColor = piece->color;
 
+
 	if (pType == PAWN){
 		if (pColor == WHITE){
+			printf("E\n");
+
 			// move forward one square case
 			if ((f2 - f1 == 1) && (r2 - r1 == 0)&& game->board[move->r2][move->f2] == NULL){
 				return 1;
@@ -72,10 +78,25 @@ int isValidPieceMove(Game *game, MOVE *move){
 				return 1;
 
 			}
-
+		
+				
 			// move forward two squares on the first move case
 			if ((f2 - f1 == 2) && (r2 - r1 == 0) && game->board[move->r2][move->f2] == NULL && piece->numberOfMoves == 0){
 				return 1;
+			}
+
+			// EN PASSANT, I LOVE FRANCE
+			if (r2 - r1 == 1 && f2 - f1 == 1
+				&& (game->board[move->r1 + 1][move->f1] != NULL && game->board[move->r1 + 1][move->f1]->p_type == PAWN
+				&& game->board[move->r1 + 1][move->f1]->color != game->whoTurn && game->board[move->r1 + 1][move->f1]->numberOfMoves == 1)){
+				return 1;
+
+			}
+			if (r2 - r1 == -1 && f2 - f1 == 1
+				&& (game->board[move->r1 - 1][move->f1] != NULL && game->board[move->r1 - 1][move->f1]->p_type == PAWN
+				&& game->board[move->r1 - 1][move->f1]->color != game->whoTurn && game->board[move->r1 - 1][move->f1]->numberOfMoves == 1)){
+				return 1;
+
 			}
 
 			return 0;
@@ -97,12 +118,26 @@ int isValidPieceMove(Game *game, MOVE *move){
 				return 1;
 			}
 
+			// EN PASSANT, I LOVE FRANCE
+			if (r2 - r1 == 1 && f2 - f1 == -1
+				&& (game->board[move->r1 + 1][move->f1] != NULL && game->board[move->r1 + 1][move->f1]->p_type == PAWN
+				&& game->board[move->r1 + 1][move->f1]->color != game->whoTurn && game->board[move->r1 + 1][move->f1]->numberOfMoves == 1)){
+				return 1;
+
+			}
+			if (r2 - r1 == -1 && f2 - f1 == -1
+				&& (game->board[move->r1 - 1][move->f1] != NULL && game->board[move->r1 - 1][move->f1]->p_type == PAWN
+				&& game->board[move->r1 - 1][move->f1]->color != game->whoTurn && game->board[move->r1 - 1][move->f1]->numberOfMoves == 1)){
+				return 1;
+
+			}
+
 			return 0;
 
 		}	
 	}
 	else if (pType == ROOK){
-		if ((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 )){
+		if ((abs(r1 - r2) > 0 && abs(f1 - f2) == 0)){
 			return 1;
 		}
 
@@ -130,7 +165,7 @@ int isValidPieceMove(Game *game, MOVE *move){
 		return 0;
 	}
 	else if (pType == QUEEN){
-		if ((abs(r1 - r2) > 0 && abs(f1 - f2) == 0 )){
+		if ((abs(r1 - r2) > 0 && abs(f1 - f2) == 0)){
 			return 1;
 		}
 
@@ -147,6 +182,42 @@ int isValidPieceMove(Game *game, MOVE *move){
 	else if (pType == KING){
 		if (abs(r1 - r2) <= 1 && abs(f1 - f2) <= 1){
 			return 1;
+		}
+
+		// CASTLING SUCKS AHHHHHHHHHHHHHHHHHHHH
+		if (r2 - r1 == 2 && f1 - f2 == 0 && !isInCheck(game) && game->board[r1][f1]->numberOfMoves == 0){
+			printf("A\n");
+			if (game->board[7][f1] != NULL && game->board[7][f1]->p_type == ROOK && game->board[7][f1]->numberOfMoves == 0){
+				Game *clone = CloneGame(game);
+				MOVE *temp_move = CreateMove(r1, f1, r1 + 1, f2);
+				Move(clone, temp_move);
+				printf("B\n");
+				DeleteMove(temp_move);
+				if (!isInCheck(clone)){
+					DeleteGame(clone);
+					MOVE *temp_move = CreateMove(7, f1, r1 + 1, f2);
+					Move(game, temp_move);
+					DeleteMove(temp_move);
+					return 1;
+				}
+				DeleteGame(clone);
+			}
+		}
+		if (r2 - r1 == -2 && f1 - f2 == 0 && !isInCheck(game) && game->board[r1][f1]->numberOfMoves == 0){
+			if (game->board[0][f1] != NULL && game->board[0][f1]->p_type == ROOK && game->board[0][f1]->numberOfMoves == 0){
+				Game *clone = CloneGame(game);
+				MOVE *move = CreateMove(r1, f1, r1 - 1, f2);
+				Move(clone, move);
+				DeleteMove(move);
+				if (!isInCheck(clone)){
+					DeleteGame(clone);
+					MOVE *temp_move = CreateMove(0, f1, r1 - 1, f2);
+					Move(game, temp_move);
+					DeleteMove(temp_move);
+					return 1;
+				}
+				DeleteGame(clone);
+			}
 		}
 		return 0;
 	}
@@ -353,6 +424,42 @@ int isObstructed(Game *game, MOVE *move){
 
 	return 0;
 
+}
+
+
+int isInCheck(Game *game){
+	int r2 = 0, f2 = 0;
+
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			if (game->board[i][j] != NULL && game->board[i][j]->p_type == KING && game->board[i][j]->color == game->whoTurn){
+				r2 = i;
+				f2 = j;
+			}
+		}
+	}
+
+
+
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			if (game->board[i][j] != NULL && game->board[i][j]->color != game->whoTurn){
+				MOVE *t_move = CreateMove(i, j, r2, f2);
+				// printf("Evaluated square: %c%d\n", 'a' + i, j + 1);
+				if (isValidPieceMove(game, t_move) && !isObstructed(game, t_move)){
+					DeleteMove(t_move);
+					// printf("Evaluated square '%c%d' is the piece that threatens the King!\n", 'a' + i, j + 1);
+					return 1;
+				}
+				else {
+					DeleteMove(t_move);
+				}
+			}
+		}
+	}
+
+
+	return 0;
 }
 
 

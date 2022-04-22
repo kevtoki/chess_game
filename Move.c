@@ -50,8 +50,6 @@ void Move(Game *game, MOVE *move){
 	game->board[currentRank][currentFile] = NULL;
 
 	game->board[newRank][newFile]->numberOfMoves++;
-	game->board[newRank][newFile]->rank = newRank;
-	game->board[newRank][newFile]->file = newFile;
 }
 
 

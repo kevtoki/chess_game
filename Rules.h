@@ -15,6 +15,8 @@ int exposesKing(Game *game, MOVE *move);
 
 int isObstructed(Game *game, MOVE *move);
 
+int isInCheck(Game *game);
+
 void checkPromotions(Game* game);
 
 #endif
