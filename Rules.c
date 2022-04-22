@@ -64,6 +64,7 @@ int isLegalMove(Game *game, MOVE *move){
 		return 0;
 	}
 
+	// printf("%c%d to %c%d\n", 'a' + move->r1, move->f1 + 1, 'a' + move->r2, move->f2 + 1);
 	if (exposesKing(game, move)){
 		// printf("Move exposes King to checkmate.\n");
 		return 0;
@@ -202,11 +203,27 @@ int isValidPieceMove(Game *game, MOVE *move){
 	}
 	else if (pType == KING){
 		if (abs(r1 - r2) <= 1 && abs(f1 - f2) <= 1){
+			int rK = 0, fK = 0;
+			for (int i = 0; i < 8; i++){
+				for (int j = 0; j < 8; j++){
+					if (game->board[i][j] != NULL
+						&& game->board[i][j]->p_type == KING
+						&& game->board[i][j]->color != game->whoTurn){
+						rK = i;
+						fK = j;
+					}
+				}
+			}
+
+			if (abs(r2 - rK) <= 2 && abs(f2 - fK) <= 2){
+				return 0;
+			}
+
 			return 1;
 		}
 
 		// CASTLING SUCKS AHHHHHHHHHHHHHHHHHHHH
-		if (r2 - r1 == 2 && f1 - f2 == 0 && !isInCheck(game) && game->board[r1][f1]->numberOfMoves == 0){
+		if (r2 - r1 == 2 && f1 - f2 == 0 && game->board[r1][f1]->numberOfMoves == 0 && !isInCheck(game)){
 			if (game->board[7][f1] != NULL && game->board[7][f1]->p_type == ROOK && game->board[7][f1]->numberOfMoves == 0){
 				Game *clone = CloneGame(game);
 				MOVE *temp_move = CreateMove(r1, f1, r1 + 1, f2);
@@ -339,19 +356,19 @@ int isObstructed(Game *game, MOVE *move){
 				}
 			}
 			else if (f1 > f2){
-				int j = f2 + 1;
+				int j = f1 - 1;
 				for (int i = r1 + 1; i < r2; i++){
 					if (game->board[i][j] != NULL){
 						return 1;
 					}
-					j++;
+					j--;
 				}
 			}
 		}
 		else if (r1 > r2){
 			if (f1 < f2){
 				int j = f1 + 1;
-				for (int i = r2 + 1; i < r1; i++){
+				for (int i = r1 - 1; i > r2; i--){
 					if (game->board[i][j] != NULL){
 						return 1;
 					}
@@ -359,12 +376,12 @@ int isObstructed(Game *game, MOVE *move){
 				}
 			}
 			else if (f1 > f2){
-				int j = f2 + 1;
-				for (int i = r2 + 1; i < r1; i++){
+				int j = f1 - 1;
+				for (int i = r1 - 1; i > r2; i--){
 					if (game->board[i][j] != NULL){
 						return 1;
 					}
-					j++;
+					j--;
 				}
 			}
 		}	
@@ -410,19 +427,19 @@ int isObstructed(Game *game, MOVE *move){
 				}
 			}
 			else if (f1 > f2){
-				int j = f2 + 1;
+				int j = f1 - 1;
 				for (int i = r1 + 1; i < r2; i++){
 					if (game->board[i][j] != NULL){
 						return 1;
 					}
-					j++;
+					j--;
 				}
 			}
 		}
 		else if (r1 > r2){
 			if (f1 < f2){
 				int j = f1 + 1;
-				for (int i = r2 + 1; i < r1; i++){
+				for (int i = r1 - 1; i > r2; i--){
 					if (game->board[i][j] != NULL){
 						return 1;
 					}
@@ -430,12 +447,12 @@ int isObstructed(Game *game, MOVE *move){
 				}
 			}
 			else if (f1 > f2){
-				int j = f2 + 1;
-				for (int i = r2 + 1; i < r1; i++){
+				int j = f1 - 1;
+				for (int i = r1 - 1; i > r2; i--){
 					if (game->board[i][j] != NULL){
 						return 1;
 					}
-					j++;
+					j--;
 				}
 			}
 		}	

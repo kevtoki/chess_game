@@ -7,6 +7,15 @@
 #include "ChessPiece.h"
 #include "MoveList.h"
 
+
+
+// AI ENGING VARIABLES
+#define PIECE_POINTS_MULTIPLIER 2
+#define KING_DISTANCE_MULTIPLIER 4
+
+
+
+
 MLIST *GetAllLegalMoves(Game *game){
 	MLIST *mList = CreateMoveList();
 
@@ -74,8 +83,72 @@ MLIST *RankMoves(Game *game, MLIST *mList){
 		int distFromKingR = abs(move->r2 - rK);
 		int distFromKingF = abs(move->f2 - fK);
 
-		int temp_points = (game->board[move->r1][move->f1]->p_type * 10);
-		temp_points -= (distFromKingR + distFromKingF) / 4;
+		int temp_points = -(distFromKingR + distFromKingF) / KING_DISTANCE_MULTIPLIER;
+		
+
+		if (game->board[move->r2][move->f2] != NULL){
+			ChessPiece *piece = game->board[move->r2][move->f2];
+
+			switch (piece->p_type){
+				case PAWN:
+					temp_points += PIECE_POINTS_MULTIPLIER * 1;
+					break;
+
+				case ROOK:
+					temp_points += PIECE_POINTS_MULTIPLIER * 5;
+					break;
+
+				case KNIGHT:
+					temp_points += PIECE_POINTS_MULTIPLIER * 3;
+					break;
+
+				case BISHOP:
+					temp_points += PIECE_POINTS_MULTIPLIER * 3;
+					break;
+
+				case QUEEN:
+					temp_points += PIECE_POINTS_MULTIPLIER * 9;
+					break;
+
+				default:
+					break;
+			}
+		}
+
+
+
+		if (game->board[move->r1][move->f1] != NULL){
+			ChessPiece *piece = game->board[move->r1][move->f1];
+
+			switch (piece->p_type){
+				case PAWN:
+					temp_points -= 1;
+					break;
+
+				case ROOK:
+					temp_points -= 5;
+					break;
+
+				case KNIGHT:
+					temp_points -= 3;
+					break;
+
+				case BISHOP:
+					temp_points -= 3;
+					break;
+
+				case QUEEN:
+					temp_points -= 9;
+					break;
+
+				case KING:
+					temp_points -= 15;
+					break;
+
+				default:
+					break;
+			}
+		}
 
 		mEntry->points = temp_points;
 

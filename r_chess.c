@@ -8,6 +8,8 @@
 #include "UI.h" // responsible for drawing the game and showing it to the user
 #include "Game.h" // responsible for the game loop and game logic
 #include "ChessPiece.h" // responsible for the chess piece structs and rules
+#include "MoveList.h"
+#include "AI.h"
 
 // function declarations
 void PrintMenu();
@@ -17,6 +19,17 @@ void Uninstall();
 
 
 int main(){
+
+	/* Test code for debugging
+	Game *game = CreateGame();
+	MOVE *move = GetAIMove(game);
+	DeleteMove(move);
+	DeleteGame(game);
+
+	return 0;
+
+	*/
+
 
     printf("Welcome to r/chess!\n\n");
 
